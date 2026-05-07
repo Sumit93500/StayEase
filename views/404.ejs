@@ -1,15 +1,19 @@
 <%- include('partials/head') %>
   </head>
-  <body>
+  <body class="bg-[#141414] text-[#A0A0A0]">
     <%- include('partials/nav') %>
-    <main class="container mx-auto mt-20 text-center">
-      <h2 class="text-6xl font-bold text-red-500 mb-4">404</h2>
-      <p class="text-2xl text-gray-700 mb-8">Oops! Page Not Found</p>
+    <main class="container mx-auto mt-20 px-4 text-center py-16">
+      <h2 class="text-8xl font-serif text-[#C9A84C] mb-4 font-light">404</h2>
+      <p class="text-3xl font-semibold text-[#F5F0E8] mb-4">Page Not Found</p>
+      <p class="text-[#A0A0A0] max-w-xl mx-auto mb-8">
+        The page you're looking for doesn't exist. Please return to the home page to continue exploring.
+      </p>
       <a
         href="<%= typeof role !== 'undefined' && role === 'host' ? '/host' : '/' %>"
-        class="bg-red-500 text-white py-2 px-6 rounded-lg hover:bg-red-600 transition duration-300"
-        >Go Back Home</a
+        class="btn-primary"
       >
+        Return to Home
+      </a>
     </main>
   </body>
 </html>

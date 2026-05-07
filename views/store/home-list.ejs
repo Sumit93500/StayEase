@@ -11,7 +11,7 @@
 
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-[#141414] text-[#A0A0A0]">
 
 
 
@@ -22,35 +22,29 @@
 
 
 
-  <div class="text-center mt-10">
-
-    <h1 class="text-5xl font-bold text-red-500">
-
-      Available Homes
-
-    </h1>
-
-  </div>
-
-
+  <section class="hero-section">
+    <div class="text-center max-w-4xl mx-auto pb-16">
+      <span class="hero-label">CURATED COLLECTION</span>
+      <h1 class="hero-title">Available Homes</h1>
+      <p class="text-[#CFC7BA] max-w-2xl mx-auto mt-4">
+        Explore luxury residences selected for serene comfort, privacy, and elevated hospitality.
+      </p>
+    </div>
+  </section>
 
 
 
-  <div
-    class="max-w-7xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-2 gap-10 px-5"
-  >
+
+
+  <div class="max-w-7xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-2 gap-10 px-5">
 
 
 
 
     <% if (registeredHomes.length === 0) { %>
-
-      <h1 class="text-3xl font-bold">
-
+      <h1 class="text-3xl font-semibold text-[#F5F0E8]">
         No Homes Found
-
       </h1>
-
     <% } %>
 
 
@@ -122,26 +116,22 @@
 
 
 
-          <div class="flex gap-4 mt-5">
-
+          <div class="flex flex-wrap gap-4 mt-6">
             <a
               href="/homes/<%= home._id %>"
-              class="bg-black hover:bg-gray-800 text-white px-5 py-3 rounded-lg text-2xl"
+              class="btn-secondary"
             >
               View Details
             </a>
 
             <% if (isLoggedIn && role === "user") { %>
-
               <a
                 href="/reserve/<%= home._id %>"
-                class="bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-lg text-2xl"
+                class="btn-primary"
               >
                 Book Now
               </a>
-
             <% } %>
-
           </div>
 
         </div>

@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title><%= home.houseName %></title>
-
-  <link href="/output.css" rel="stylesheet">
+  <%- include('../partials/head') %>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     #propertyMap {
@@ -17,11 +16,11 @@
   </style>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-[#141414] text-[#A0A0A0]">
 
   <%- include('../partials/nav') %>
 
-  <main class="max-w-5xl mx-auto bg-white shadow-lg rounded-xl mt-10 overflow-hidden">
+  <main class="max-w-5xl mx-auto card mt-10 overflow-hidden">
 
     <img
       src="<%= home.photoUrl %>"
@@ -31,82 +30,69 @@
 
     <div class="p-8">
 
-      <div class="flex justify-between items-center mb-4">
+      <div class="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-6">
 
-        <h1 class="text-4xl font-bold text-gray-800">
+        <h1 class="text-4xl font-semibold text-[#F5F0E8]">
           <%= home.houseName %>
         </h1>
 
-        <div class="text-yellow-500 text-2xl font-bold">
+        <div class="text-[#C9A84C] text-2xl font-bold">
           ⭐ <%= home.rating %>
         </div>
 
       </div>
 
-      <p class="text-xl text-gray-500 mb-6">
+      <p class="text-xl text-[#A0A0A0] mb-6">
         📍 <%= home.location %>
       </p>
 
-      <p class="text-3xl text-red-500 font-bold mb-8">
+      <p class="text-3xl font-bold text-[#C9A84C] mb-8">
         ₹<%= home.price %> / night
       </p>
 
-      <div class="bg-gray-100 p-6 rounded-lg mb-8">
-
-        <h2 class="text-2xl font-semibold mb-3">
+      <div class="card p-6 mb-8">
+        <h2 class="text-2xl font-semibold mb-3 text-[#F5F0E8]">
           About this home
         </h2>
-
-        <p class="text-gray-700 leading-8 text-lg">
+        <p class="text-[#A0A0A0] leading-8 text-lg">
           <%= home.description %>
         </p>
-
       </div>
 
-      <div class="bg-gray-100 p-6 rounded-lg mb-8">
-        <h2 class="text-2xl font-semibold mb-3">
+      <div class="card p-6 mb-8">
+        <h2 class="text-2xl font-semibold mb-3 text-[#F5F0E8]">
           Property Location
         </h2>
         <div id="propertyMap"></div>
       </div>
 
-      <div class="flex gap-4">
+      <div class="flex flex-wrap gap-4">
 
         <% if (isLoggedIn && role === "user") { %>
-
           <form action="/reserve/<%= home._id %>" method="GET">
-
             <button
               type="submit"
-              class="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-lg text-lg font-semibold"
+              class="btn-primary"
             >
               Book Now
             </button>
-
           </form>
-
           <form action="/favourites" method="POST">
-
             <input
               type="hidden"
               name="id"
               value="<%= home._id %>"
             >
-
             <button
-              class="bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-lg text-lg font-semibold"
+              class="btn-secondary"
             >
               Add To Favourite
             </button>
-
           </form>
-
         <% } else { %>
-
-          <div class="rounded-lg bg-yellow-100 border border-yellow-300 p-4 text-yellow-800">
+          <div class="card p-5 border border-[#2A2A2A] text-[#CFC7BA]">
             Please log in to book this home or save it to favourites.
           </div>
-
         <% } %>
 
       </div>

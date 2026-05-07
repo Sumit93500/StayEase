@@ -1,39 +1,77 @@
 const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema({
+
   home: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Home",
   },
 
-  houseName: String,
+  houseName: {
+    type: String,
+  },
 
-  city: String,
+  location: {
+    type: String,
+  },
 
-  price: Number,
+  latitude: {
+    type: Number,
+  },
 
-  photo: String,
+  longitude: {
+    type: Number,
+  },
 
-  checkIn: String,
+  city: {
+    type: String,
+  },
 
-  checkOut: String,
+  price: {
+    type: Number,
+  },
 
-  totalNights: Number,
+  photo: {
+    type: String,
+  },
 
-  totalAmount: Number,
+  checkIn: {
+    type: String,
+  },
 
-  transactionId: String,
+  checkOut: {
+    type: String,
+  },
 
-  cancellationReason: String,
+  totalNights: {
+    type: Number,
+  },
+
+  totalAmount: {
+    type: Number,
+  },
+
+  transactionId: {
+    type: String,
+  },
+
+  cancellationReason: {
+    type: String,
+  },
 
   isCanceled: {
     type: Boolean,
     default: false,
   },
 
-  cancelDate: Date,
+  cancelDate: {
+    type: Date,
+  },
 
-  userId: String,
+  userId: {
+    type: String,
+  },
+
 });
 
 module.exports = mongoose.model("Booking", bookingSchema);

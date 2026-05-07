@@ -9,7 +9,7 @@
 
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-[#141414] text-[#A0A0A0]">
 
 
 
@@ -20,19 +20,13 @@
 
 
 
-  <div
-    class="max-w-7xl mx-auto bg-white mt-10 rounded-3xl shadow-lg p-10"
-  >
+  <div class="max-w-7xl mx-auto card mt-10 rounded-3xl p-10">
 
 
 
 
-    <h1
-      class="text-center text-6xl font-bold text-red-500 mb-10"
-    >
-
+    <h1 class="text-center text-4xl font-semibold text-[#F5F0E8] mb-10">
       Complete Payment
-
     </h1>
 
 
@@ -56,20 +50,16 @@
 
 
 
-        <h1 class="text-5xl font-bold mt-8">
-
+        <h1 class="text-3xl font-semibold text-[#F5F0E8] mt-8">
           <%= home.houseName %>
-
         </h1>
 
 
 
 
 
-        <p class="text-3xl text-gray-600 mt-3">
-
+        <p class="text-3xl text-[#A0A0A0] mt-3">
           <%= home.city %>
-
         </p>
 
 
@@ -135,12 +125,8 @@
 
           <div class="mt-10">
 
-            <label
-              class="text-2xl font-bold"
-            >
-
+            <label class="text-2xl font-semibold text-[#F5F0E8]">
               Check-In
-
             </label>
 
 
@@ -152,7 +138,7 @@
               name="checkIn"
               id="checkIn"
               required
-              class="w-full border-2 p-4 rounded-xl mt-3 text-2xl"
+              class="w-full border border-[#2A2A2A] p-4 rounded-xl mt-3 text-2xl bg-[#0D0D0D] text-[#F5F0E8]"
             />
 
           </div>
@@ -163,12 +149,8 @@
 
           <div class="mt-5">
 
-            <label
-              class="text-2xl font-bold"
-            >
-
+            <label class="text-2xl font-semibold text-[#F5F0E8]">
               Check-Out
-
             </label>
 
 
@@ -180,7 +162,7 @@
               name="checkOut"
               id="checkOut"
               required
-              class="w-full border-2 p-4 rounded-xl mt-3 text-2xl"
+              class="w-full border border-[#2A2A2A] p-4 rounded-xl mt-3 text-2xl bg-[#0D0D0D] text-[#F5F0E8]"
             />
 
           </div>
@@ -191,61 +173,35 @@
 
           <div class="mt-8 space-y-5">
 
-            <h2 class="text-3xl font-bold">
-
+            <h2 class="text-3xl font-semibold text-[#F5F0E8]">
               Check-In:
-              <span id="checkInText">
-
-                --
-
-              </span>
-
+              <span id="checkInText" class="text-[#A0A0A0]">--</span>
             </h2>
 
 
 
 
 
-            <h2 class="text-3xl font-bold">
-
+            <h2 class="text-3xl font-semibold text-[#F5F0E8]">
               Check-Out:
-              <span id="checkOutText">
-
-                --
-
-              </span>
-
+              <span id="checkOutText" class="text-[#A0A0A0]">--</span>
             </h2>
 
 
 
 
 
-            <h2 class="text-3xl font-bold">
-
+            <h2 class="text-3xl font-semibold text-[#F5F0E8]">
               Total Nights:
-              <span id="totalNights">
-
-                0
-
-              </span>
-
+              <span id="totalNights" class="text-[#A0A0A0]">0</span>
             </h2>
 
 
 
 
 
-            <h1
-              class="text-6xl font-bold text-red-500"
-            >
-
-              Rs<span id="totalAmount">
-
-                0
-
-              </span>
-
+            <h1 class="text-4xl font-bold text-[#C9A84C]">
+              Rs<span id="totalAmount" class="text-[#F5F0E8]">0</span>
             </h1>
 
 
@@ -277,16 +233,9 @@
 
 
       <!-- RIGHT -->
-      <div
-        class="bg-gray-100 rounded-3xl p-10"
-      >
-
-        <h1
-          class="text-5xl font-bold text-center"
-        >
-
+      <div class="card rounded-3xl p-10">
+        <h1 class="text-3xl font-semibold text-center text-[#F5F0E8]">
           Scan & Pay
-
         </h1>
 
 
@@ -298,46 +247,28 @@
 
 
 
-          <div
-            class="bg-white rounded-2xl p-5 shadow-md"
-          >
-
+          <div class="card rounded-2xl p-5 text-center">
             <img
               src="/images/qr1.jpg"
-              class="w-full h-72 object-contain"
+              class="w-full h-72 object-contain rounded-xl"
             />
-
-            <h2
-              class="text-center text-3xl font-bold mt-5"
-            >
-
+            <h2 class="text-center text-3xl font-semibold text-[#F5F0E8] mt-5">
               Sumit UPI
-
             </h2>
-
           </div>
 
 
 
 
 
-          <div
-            class="bg-white rounded-2xl p-5 shadow-md"
-          >
-
+          <div class="card rounded-2xl p-5 text-center">
             <img
               src="/images/qr2.jpg"
-              class="w-full h-72 object-contain"
+              class="w-full h-72 object-contain rounded-xl"
             />
-
-            <h2
-              class="text-center text-3xl font-bold mt-5"
-            >
-
+            <h2 class="text-center text-3xl font-semibold text-[#F5F0E8] mt-5">
               Sahbaj UPI
-
             </h2>
-
           </div>
 
         </div>
@@ -351,7 +282,7 @@
           name="transactionId"
           required
           placeholder="Enter Transaction ID"
-          class="w-full border-2 p-5 rounded-2xl mt-10 text-2xl"
+          class="w-full border border-[#2A2A2A] p-5 rounded-2xl mt-10 text-2xl bg-[#0D0D0D] text-[#F5F0E8]"
         />
 
 
@@ -359,11 +290,9 @@
 
 
         <button
-          class="w-full bg-red-500 hover:bg-red-600 text-white py-5 rounded-2xl text-3xl font-bold mt-8"
+          class="w-full btn-primary text-3xl font-bold mt-8"
         >
-
           Confirm Booking
-
         </button>
 
       </div>

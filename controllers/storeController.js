@@ -137,8 +137,11 @@ exports.getReserveHome = async (req, res, next) => {
 exports.getPaymentPage = exports.getBookHome;
 
 // CONFIRM BOOKING
+// CONFIRM BOOKING
 exports.postConfirmBooking = async (req, res, next) => {
+
   try {
+
     const {
       homeId,
       checkIn,
@@ -148,40 +151,64 @@ exports.postConfirmBooking = async (req, res, next) => {
       transactionId,
     } = req.body;
 
-    const home = await Home.findById(homeId);
+    const home =
+      await Home.findById(homeId);
 
-    const booking = new Booking({
-      home: home._id,
+    const booking =
+      new Booking({
 
-      houseName: home.houseName,
+        home: home._id,
 
-      city: home.city,
+        houseName:
+          home.houseName,
 
-      price: home.price,
+        location:
+          home.location,
 
-      photo: home.photoUrl,
+        latitude:
+          home.latitude,
 
-      checkIn,
+        longitude:
+          home.longitude,
 
-      checkOut,
+        city:
+          home.city,
 
-      totalNights,
+        price:
+          home.price,
 
-      totalAmount,
+        photo:
+          home.photoUrl,
 
-      transactionId,
+        checkIn,
 
-      userId: req.session.user._id,
-    });
+        checkOut,
+
+        totalNights,
+
+        totalAmount,
+
+        transactionId,
+
+        userId:
+          req.session.user._id,
+
+      });
 
     await booking.save();
 
     res.redirect("/bookings");
-  } catch (err) {
+
+  }
+
+  catch (err) {
+
     console.log(err);
 
     res.redirect("/");
+
   }
+
 };
 
 // CANCEL BOOKING

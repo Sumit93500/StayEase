@@ -2,69 +2,80 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <title>Signup</title>
+    <%- include('../partials/head') %>
   </head>
 
-  <body class="bg-gray-100 flex justify-center items-center min-h-screen">
+  <body class="bg-[#141414] text-[#A0A0A0] flex justify-center items-center min-h-screen px-4">
     <form
       action="/signup"
       method="POST"
-      class="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-lg"
+      class="card p-10 rounded-2xl shadow-2xl w-full max-w-lg"
     >
-      <h1 class="text-4xl font-bold text-center text-red-500 mb-8">
-        Create Account
-      </h1>
+      <div class="text-center mb-8">
+        <span class="hero-label">NEW MEMBER</span>
+        <h1 class="text-3xl font-serif text-[#F5F0E8] mt-2">Create Account</h1>
+        <p class="text-[#CFC7BA] mt-2">Join our community of travelers and hosts.</p>
+      </div>
 
-      <input
-        type="text"
-        name="fullName"
-        placeholder="Full Name"
-        required
-        class="w-full border border-gray-300 rounded-xl px-5 py-4 mb-5"
-      />
+      <div class="space-y-5">
+        <div>
+          <label class="block text-[#F5F0E8] text-sm font-semibold mb-2">Full Name</label>
+          <input
+            type="text"
+            name="fullName"
+            placeholder="Your full name"
+            required
+            class="w-full border border-[#2A2A2A] rounded-xl px-5 py-4 bg-[#0D0D0D] text-[#F5F0E8] placeholder-[#666] text-lg"
+          />
+        </div>
 
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        required
-        class="w-full border border-gray-300 rounded-xl px-5 py-4 mb-5"
-      />
+        <div>
+          <label class="block text-[#F5F0E8] text-sm font-semibold mb-2">Email Address</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+            class="w-full border border-[#2A2A2A] rounded-xl px-5 py-4 bg-[#0D0D0D] text-[#F5F0E8] placeholder-[#666] text-lg"
+          />
+        </div>
 
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        required
-        class="w-full border border-gray-300 rounded-xl px-5 py-4 mb-5"
-      />
+        <div>
+          <label class="block text-[#F5F0E8] text-sm font-semibold mb-2">Password</label>
+          <input
+            type="password"
+            name="password"
+            placeholder="••••••••"
+            required
+            class="w-full border border-[#2A2A2A] rounded-xl px-5 py-4 bg-[#0D0D0D] text-[#F5F0E8] placeholder-[#666] text-lg"
+          />
+        </div>
 
-      <select
-        name="role"
-        required
-        class="w-full border border-gray-300 rounded-xl px-5 py-4 mb-5"
-      >
-        <option value="user">User</option>
+        <div>
+          <label class="block text-[#F5F0E8] text-sm font-semibold mb-2">Account Type</label>
+          <select
+            name="role"
+            required
+            class="w-full border border-[#2A2A2A] rounded-xl px-5 py-4 bg-[#0D0D0D] text-[#F5F0E8] text-lg"
+          >
+            <option value="user" class="bg-[#0D0D0D] text-[#F5F0E8]">Guest - Book homes</option>
+            <option value="host" class="bg-[#0D0D0D] text-[#F5F0E8]">Host - List your property</option>
+          </select>
+        </div>
 
-        <option value="host">Host</option>
-      </select>
+        <button
+          type="submit"
+          class="w-full btn-primary py-4 rounded-xl text-xl font-bold mt-6"
+        >
+          Create Account
+        </button>
+      </div>
 
-      <button
-        type="submit"
-        class="w-full bg-red-500 hover:bg-red-600 text-white py-4 rounded-xl text-xl font-bold"
-      >
-        Signup
-      </button>
-
-      <p class="text-center mt-5">
-        Already have account?
-
-        <a href="/login" class="text-red-500 font-bold"> Login </a>
+      <p class="text-center mt-6 text-[#A0A0A0]">
+        Already have an account?
+        <a href="/login" class="text-[#C9A84C] font-semibold hover:text-[#E6D5A3]">Sign in</a>
       </p>
     </form>
   </body>

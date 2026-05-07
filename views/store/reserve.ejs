@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Reserve Home</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
+    <%- include('../partials/head') %>
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -26,15 +24,15 @@
     </style>
   </head>
 
-  <body class="bg-gray-100">
+  <body class="bg-[#141414] text-[#A0A0A0]">
     <%- include('../partials/nav') %>
 
-    <div class="max-w-5xl mx-auto mt-10 bg-white rounded-2xl shadow-lg p-8">
-      <h1 class="text-4xl font-bold text-center text-red-500 mb-10">
+    <div class="max-w-5xl mx-auto mt-10 card rounded-2xl shadow-lg p-8">
+      <h1 class="text-3xl font-semibold text-center text-[#F5F0E8] mb-10">
         Reserve Your Stay
       </h1>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
         <!-- IMAGE -->
         <div>
           <img
@@ -45,84 +43,78 @@
 
         <!-- DETAILS -->
         <div>
-          <h2 class="text-4xl font-bold mb-3"><%= home.houseName %></h2>
+          <h2 class="text-3xl font-semibold text-[#F5F0E8] mb-3"><%= home.houseName %></h2>
 
-          <p class="text-gray-600 text-2xl mb-5"><%= home.location %></p>
+          <p class="text-[#A0A0A0] text-2xl mb-5"><%= home.location %></p>
 
-          <p class="text-red-500 text-4xl font-bold mb-8">
+          <p class="text-[#C9A84C] text-2xl font-bold mb-8">
             Rs<%= home.price %> / night
           </p>
 
           <form id="reserveForm" class="space-y-5">
             <div>
-              <label class="font-bold text-lg"> Check-In Date </label>
-
+              <label class="font-semibold text-lg text-[#F5F0E8]"> Check-In Date </label>
               <input
                 type="date"
                 id="checkIn"
                 required
-                class="w-full border-2 border-gray-300 p-4 rounded-xl mt-2"
+                class="w-full border border-[#2A2A2A] p-4 rounded-xl mt-2 bg-[#0D0D0D] text-[#F5F0E8]"
               />
             </div>
 
             <div>
-              <label class="font-bold text-lg"> Check-Out Date </label>
-
+              <label class="font-semibold text-lg text-[#F5F0E8]"> Check-Out Date </label>
               <input
                 type="date"
                 id="checkOut"
                 required
-                class="w-full border-2 border-gray-300 p-4 rounded-xl mt-2"
+                class="w-full border border-[#2A2A2A] p-4 rounded-xl mt-2 bg-[#0D0D0D] text-[#F5F0E8]"
               />
             </div>
 
             <div>
-              <label class="font-bold text-lg">
+              <label class="font-semibold text-lg text-[#F5F0E8]">
                 Your Location (for directions)
               </label>
-
               <input
                 type="text"
                 id="userLocation"
                 placeholder="e.g., 456 Oak St, Jaipur, Rajasthan"
-                class="w-full border-2 border-gray-300 p-4 rounded-xl mt-2"
+                class="w-full border border-[#2A2A2A] p-4 rounded-xl mt-2 bg-[#0D0D0D] text-[#F5F0E8]"
               />
-
               <button
                 type="button"
                 id="showMapBtn"
-                class="mt-2 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-xl"
+                class="mt-2 w-full btn-secondary text-lg"
               >
                 Show Route to Property
               </button>
             </div>
 
             <div id="mapContainer" style="display: none">
-              <h3 class="font-bold text-lg mt-4">Directions to Property</h3>
-              <div
-                class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded mb-4"
-              >
-                <p class="text-sm text-gray-600">
+              <h3 class="font-semibold text-lg text-[#F5F0E8] mt-4">Directions to Property</h3>
+              <div class="card border-l-4 border-[#C9A84C] p-4 rounded mb-4">
+                <p class="text-sm text-[#A0A0A0]">
                   📍 Starting from your location to property:
                 </p>
                 <div id="distanceInfo" class="mt-2">
-                  <p class="text-lg font-bold text-blue-600">
+                  <p class="text-lg font-bold text-[#C9A84C]">
                     Distance: <span id="distanceDisplay">Calculating...</span>
                   </p>
-                  <p class="text-sm text-gray-600">
+                  <p class="text-sm text-[#A0A0A0]">
                     Travel time: <span id="timeDisplay">--</span>
                   </p>
                 </div>
               </div>
               <div id="directionsMap"></div>
-              <p class="text-sm text-gray-600 mt-2">
+              <p class="text-sm text-[#A0A0A0] mt-2">
                 The map shows the route from your location to the property.
               </p>
             </div>
 
             <button
               type="submit"
-              class="w-full bg-red-500 hover:bg-red-600 text-white text-xl font-bold py-4 rounded-xl"
+              class="w-full btn-primary text-xl font-bold py-4"
             >
               Continue To Payment
             </button>

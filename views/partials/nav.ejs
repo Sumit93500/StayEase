@@ -1,10 +1,10 @@
-<nav class="bg-red-500 p-5 flex justify-between items-center">
+<nav class="bg-[#0D0D0D] p-5 flex justify-between items-center shadow-[0_1px_0_#2A2A2A]">
 
   <a
     href="/"
-    class="text-white text-5xl font-bold"
+    class="font-serif text-[#C9A84C] text-[1.45rem] tracking-[0.15em] font-bold uppercase"
   >
-    StayEase
+    STAYEASE
   </a>
 
 
@@ -15,96 +15,70 @@
 
     <a
       href="/"
-      class="text-white text-2xl font-bold"
+      class="text-[#A0A0A0] uppercase tracking-[0.08em] text-sm hover:text-[#E6D5A3]"
     >
       Homes
     </a>
 
     <% if (!isLoggedIn) { %>
 
-      <a href="/login">
-
-        <button
-          class="bg-white text-red-500 px-5 py-2 rounded-xl text-2xl font-bold"
-        >
-          Login
-        </button>
-
+      <a href="/login" class="btn-secondary">
+        Login
       </a>
 
-      <a href="/signup">
-
-        <button
-          class="bg-black text-white px-5 py-2 rounded-xl text-2xl font-bold"
-        >
-          Signup
-        </button>
-
+      <a href="/signup" class="btn-primary">
+        Signup
       </a>
 
     <% } else if (role === "host") { %>
 
       <a
         href="/host"
-        class="text-white text-2xl font-bold hover:underline"
+        class="text-[#A0A0A0] uppercase tracking-[0.08em] text-sm hover:text-[#E6D5A3]"
       >
         Dashboard
       </a>
 
       <a
         href="/host/my-homes"
-        class="text-white text-2xl font-bold hover:underline"
+        class="text-[#A0A0A0] uppercase tracking-[0.08em] text-sm hover:text-[#E6D5A3]"
       >
         My Homes
       </a>
 
       <a
         href="/host/my-bookings"
-        class="text-white text-2xl font-bold hover:underline"
+        class="text-[#A0A0A0] uppercase tracking-[0.08em] text-sm hover:text-[#E6D5A3]"
       >
         My Bookings
       </a>
 
-      <form
-        action="/logout"
-        method="POST"
-      >
-
-        <button
-          class="bg-white text-red-500 px-5 py-2 rounded-xl text-2xl font-bold"
-        >
+      <form action="/logout" method="POST">
+        <button class="btn-primary">
           Logout
         </button>
-
       </form>
 
     <% } else { %>
 
       <a
         href="/favourites"
-        class="text-white text-2xl font-bold hover:underline"
+        class="text-[#A0A0A0] uppercase tracking-[0.08em] text-sm hover:text-[#E6D5A3]"
       >
         Favourites
       </a>
 
       <a
         href="/bookings"
-        class="text-white text-2xl font-bold hover:underline"
+        class="text-[#A0A0A0] uppercase tracking-[0.08em] text-sm hover:text-[#E6D5A3]"
       >
         Bookings
       </a>
 
-      <form
-        action="/logout"
-        method="POST"
-      >
-
-        <button
-          class="bg-white text-red-500 px-5 py-2 rounded-xl text-2xl font-bold"
-        >
+      <form action="/logout" method="POST">
+        <button class="btn-primary">
           Logout
         </button>
-
       </form>
 
     <% } %>

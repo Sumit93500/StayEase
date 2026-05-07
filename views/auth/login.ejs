@@ -3,39 +3,56 @@
 <html>
   <head>
     <title>Login</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
+    <%- include('../partials/head') %>
   </head>
 
-  <body class="bg-gray-100">
+  <body class="bg-[#141414] text-[#A0A0A0] min-h-screen flex flex-col">
     <%- include("../partials/nav") %>
 
-    <div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg mt-20">
-      <h1 class="text-4xl font-bold text-center text-red-500 mb-8">Login</h1>
+    <div class="flex-1 flex items-center justify-center px-4">
+      <div class="w-full max-w-md card p-8 rounded-xl">
+        <div class="mb-8">
+          <span class="hero-label">SECURE ACCESS</span>
+          <h1 class="text-3xl font-serif text-[#F5F0E8] mt-2">Welcome Back</h1>
+          <p class="text-[#CFC7BA] mt-2">Sign in to access your bookings and preferences.</p>
+        </div>
 
-      <form action="/login" method="POST">
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter Email"
-          required
-          class="w-full border p-4 rounded-lg mb-5 text-xl"
-        />
+        <form action="/login" method="POST" class="space-y-5">
+          <div>
+            <label class="block text-[#F5F0E8] text-sm font-semibold mb-2">Email Address</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              required
+              class="w-full border border-[#2A2A2A] p-4 rounded-lg bg-[#0D0D0D] text-[#F5F0E8] placeholder-[#666] text-lg"
+            />
+          </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter Password"
-          required
-          class="w-full border p-4 rounded-lg mb-5 text-xl"
-        />
+          <div>
+            <label class="block text-[#F5F0E8] text-sm font-semibold mb-2">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="••••••••"
+              required
+              class="w-full border border-[#2A2A2A] p-4 rounded-lg bg-[#0D0D0D] text-[#F5F0E8] placeholder-[#666] text-lg"
+            />
+          </div>
 
-        <button
-          class="w-full bg-red-500 text-white p-4 rounded-lg text-2xl font-bold"
-        >
-          Login
-        </button>
-      </form>
+          <button
+            class="w-full btn-primary text-xl font-bold py-3 mt-6"
+          >
+            Sign In
+          </button>
+        </form>
+
+        <div class="mt-6 text-center">
+          <p class="text-[#A0A0A0]">Don't have an account? 
+            <a href="/signup" class="text-[#C9A84C] font-semibold hover:text-[#E6D5A3]">Sign up</a>
+          </p>
+        </div>
+      </div>
     </div>
   </body>
 </html>

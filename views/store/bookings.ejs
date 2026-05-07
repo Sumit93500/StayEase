@@ -3,160 +3,310 @@
 
 <head>
 
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
-  <script src="https://cdn.tailwindcss.com"></script>
+  <%- include('../partials/head') %>
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
-  
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"
+  />
+
   <style>
+
     .booking-map {
+
       height: 400px;
-      border-radius: 8px;
+
+      border-radius: 10px;
+
       margin-top: 15px;
+
       display: none;
+
     }
+
     .directions-panel {
+
       display: none;
+
     }
+
   </style>
 
-  <title>Bookings</title>
+  <title>
+    Bookings
+  </title>
 
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-[#141414] text-[#A0A0A0]">
 
   <%- include('../partials/nav') %>
 
-  <main class="max-w-7xl mx-auto mt-10 p-8">
+  <main class="max-w-7xl mx-auto mt-10 px-6">
 
-    <h1 class="text-5xl font-bold text-center text-red-500 mb-8">
-      My Bookings
-    </h1>
+    <!-- HERO -->
+    <section class="hero-section">
 
-    <% if (message) { %>
-      <div class="mb-8 max-w-3xl mx-auto">
-        <div class="rounded-2xl border border-green-300 bg-green-50 p-5 text-green-900 shadow-sm">
-          <p class="font-semibold text-lg">Booking update</p>
-          <p class="mt-2"><%= message %></p>
-        </div>
+      <div class="text-center max-w-4xl mx-auto pb-16">
+
+        <span class="hero-label">
+          YOUR STAYS
+        </span>
+
+        <h1 class="hero-title">
+          My Bookings
+        </h1>
+
+        <p class="text-[#CFC7BA] max-w-2xl mx-auto mt-4">
+
+          View, manage, and get directions
+          to all of your reserved homes.
+
+        </p>
+
       </div>
+
+    </section>
+
+    <!-- MESSAGE -->
+    <% if (message) { %>
+
+      <div class="mb-8 max-w-3xl mx-auto">
+
+        <div class="card border-l-4 border-[#C9A84C] p-5">
+
+          <p class="font-semibold text-lg text-[#F5F0E8]">
+
+            Booking Update
+
+          </p>
+
+          <p class="mt-2 text-[#A0A0A0]">
+
+            <%= message %>
+
+          </p>
+
+        </div>
+
+      </div>
+
     <% } %>
 
+    <!-- BOOKINGS -->
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
 
       <% bookings.forEach(home => { %>
 
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:scale-105 transition duration-300">
+        <div class="card overflow-hidden hover:scale-105 transition duration-300">
 
+          <!-- IMAGE -->
           <img
             src="<%= home.photo %>"
             alt="<%= home.houseName %>"
             class="w-full h-72 object-cover"
-          >
+          />
 
           <div class="p-6">
 
-            <h2 class="text-3xl font-bold mb-3">
+            <!-- HOUSE NAME -->
+            <h2 class="text-3xl font-semibold text-[#F5F0E8] mb-3">
+
               <%= home.houseName %>
+
             </h2>
 
-            <p class="text-gray-600 text-lg mb-5">
+            <!-- LOCATION -->
+            <p class="text-[#A0A0A0] text-lg mb-5">
+
               <%= home.location %>
+
             </p>
 
-            <div class="space-y-3 text-lg">
+            <!-- BOOKING INFO -->
+            <div class="space-y-3 text-lg bg-[#0D0D0D] rounded-lg p-4 border border-[#2A2A2A] mb-5">
 
-              <p>
-                <span class="font-bold">Check-In:</span>
-                <%= home.checkIn %>
+              <p class="text-[#F5F0E8]">
+
+                <span class="font-semibold">
+                  Check-In:
+                </span>
+
+                <span class="text-[#A0A0A0]">
+
+                  <%= home.checkIn %>
+
+                </span>
+
               </p>
 
-              <p>
-                <span class="font-bold">Check-Out:</span>
-                <%= home.checkOut %>
+              <p class="text-[#F5F0E8]">
+
+                <span class="font-semibold">
+                  Check-Out:
+                </span>
+
+                <span class="text-[#A0A0A0]">
+
+                  <%= home.checkOut %>
+
+                </span>
+
               </p>
 
-              <p>
-                <span class="font-bold">Booked For:</span>
-                <%= home.totalNights %> Night(s)
+              <p class="text-[#F5F0E8]">
+
+                <span class="font-semibold">
+                  Nights:
+                </span>
+
+                <span class="text-[#A0A0A0]">
+
+                  <%= home.totalNights %> night(s)
+
+                </span>
+
               </p>
 
-              <p class="text-red-500 text-3xl font-bold pt-4">
-                Rs<%= home.totalAmount %>
+              <p class="text-[#C9A84C] text-2xl font-bold pt-2 border-t border-[#2A2A2A]">
+
+                Rs <%= home.totalAmount %>
+
               </p>
 
             </div>
 
-            <form action="/cancel-booking" method="POST" class="mt-6">
-              <input type="hidden" name="bookingId" value="<%= home._id %>">
+            <!-- TOGGLE BUTTON -->
+            <button
+              class="toggle-directions-btn w-full mb-3 px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white font-semibold transition"
+              data-booking-id="<%= home._id %>"
+            >
 
-              <button
-                type="button"
-                class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-2xl font-semibold mb-4 toggle-directions-btn"
-                data-booking-id="<%= home._id %>"
-                data-lat="<%= home.home?.latitude || home.latitude || 26.9124 %>"
-                data-lng="<%= home.home?.longitude || home.longitude || 75.7873 %>"
-                data-name="<%= home.houseName %>"
-                data-location="<%= home.location %>"
-              >
-                📍 Show Directions
-              </button>
+              📍 Show Directions
 
-              <div id="directions-panel-<%= home._id %>" class="directions-panel rounded-2xl border border-gray-200 bg-gray-50 p-4 mb-4">
-                <div class="space-y-4">
-                  <div>
-                    <label class="block font-semibold mb-2">Enter your location</label>
-                    <input
-                      type="text"
-                      id="userLocation-<%= home._id %>"
-                      placeholder="e.g., 456 Oak St, Jaipur, Rajasthan"
-                      class="w-full border border-gray-300 rounded-2xl p-4 text-lg"
-                    />
-                  </div>
+            </button>
 
-                  <button
-                    type="button"
-                    class="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-3 rounded-2xl font-semibold show-route-btn"
-                    data-booking-id="<%= home._id %>"
-                    data-lat="<%= home.home?.latitude || home.latitude || 26.9124 %>"
-                    data-lng="<%= home.home?.longitude || home.longitude || 75.7873 %>"
-                    data-name="<%= home.houseName %>"
-                    data-location="<%= home.location %>"
-                  >
-                    🧭 Calculate Route & Distance
-                  </button>
+            <!-- PANEL -->
+            <div
+              id="directions-panel-<%= home._id %>"
+              class="directions-panel"
+            >
 
-                  <div id="routeInfo-<%= home._id %>" class="hidden rounded-2xl bg-white border border-gray-200 p-4">
-                    <p class="text-lg font-semibold text-gray-800">Distance: <span id="distance-<%= home._id %>">--</span></p>
-                    <p class="text-lg font-semibold text-gray-800">Travel time: <span id="time-<%= home._id %>">--</span></p>
-                  </div>
-                </div>
+              <!-- USER LOCATION -->
+              <div class="mb-3">
+
+                <input
+                  type="text"
+                  id="userLocation-<%= home._id %>"
+                  placeholder="Enter your location..."
+                  class="w-full px-4 py-2 rounded bg-[#0D0D0D] border border-[#2A2A2A] text-[#F5F0E8]"
+                />
+
               </div>
 
-              <div id="map-<%= home._id %>" class="booking-map"></div>
+              <!-- ROUTE BUTTON -->
+              <button
+                class="show-route-btn w-full px-4 py-2 rounded bg-[#C9A84C] hover:bg-[#E6D5A3] text-[#0D0D0D] font-bold transition"
+                data-booking-id="<%= home._id %>"
+                data-lat="<%= home.latitude || home.home.latitude %>"
+                data-lng="<%= home.longitude || home.home.longitude %>"
+              >
 
-              <label class="block font-semibold mb-2">
-                Why are you canceling?
-              </label>
+                🗺️ Get Route
+
+              </button>
+
+              <!-- INFO -->
+              <div
+                id="routeInfo-<%= home._id %>"
+                class="hidden mt-3 p-3 bg-[#0D0D0D] rounded border border-[#2A2A2A] text-sm"
+              >
+
+                <p class="text-[#F5F0E8]">
+
+                  Distance:
+
+                  <span
+                    id="distance-<%= home._id %>"
+                    class="text-[#C9A84C] font-bold"
+                  >
+
+                    --
+
+                  </span>
+
+                </p>
+
+                <p class="text-[#F5F0E8] mt-1">
+
+                  Travel Time:
+
+                  <span
+                    id="time-<%= home._id %>"
+                    class="text-[#C9A84C] font-bold"
+                  >
+
+                    --
+
+                  </span>
+
+                </p>
+
+              </div>
+
+              <!-- MAP -->
+              <div
+                id="map-<%= home._id %>"
+                class="booking-map"
+              ></div>
+
+            </div>
+
+            <!-- CANCEL BOOKING -->
+            <form
+              action="/cancel-booking"
+              method="POST"
+              class="mt-5"
+            >
+
+              <!-- BOOKING ID -->
+              <input
+                type="hidden"
+                name="bookingId"
+                value="<%= home._id %>"
+              />
+
+              <!-- FEEDBACK -->
               <textarea
                 name="reason"
                 required
-                class="w-full rounded-2xl border border-gray-300 p-4 text-lg resize-none"
-                rows="3"
-                placeholder="Tell us the reason so we can improve"
+                placeholder="Why are you cancelling this booking?"
+                class="w-full p-3 rounded bg-[#0D0D0D] border border-[#2A2A2A] text-[#F5F0E8] resize-none h-28 mb-3"
               ></textarea>
 
+              <!-- BUTTON -->
               <button
                 type="submit"
-                class="mt-4 w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-2xl font-semibold"
+                class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded transition"
+                onclick="return confirm('Are you sure you want to cancel this booking?')"
               >
+
                 Cancel Booking
+
               </button>
+
             </form>
 
           </div>
@@ -169,130 +319,306 @@
 
   </main>
 
+  <!-- LEAFLET -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- ROUTING -->
   <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
 
   <script>
+
     const mapInstances = {};
+
     const routingInstances = {};
 
-    document.querySelectorAll('.toggle-directions-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const bookingId = this.getAttribute('data-booking-id');
-        const panel = document.getElementById(`directions-panel-${bookingId}`);
+    // TOGGLE PANEL
+    document.querySelectorAll(
+      '.toggle-directions-btn'
+    ).forEach(btn => {
 
-        if (panel.style.display === 'none' || panel.style.display === '') {
-          panel.style.display = 'block';
-          this.textContent = '🔽 Hide Directions';
-          this.classList.remove('bg-blue-500', 'hover:bg-blue-600');
-          this.classList.add('bg-indigo-500', 'hover:bg-indigo-600');
-        } else {
-          panel.style.display = 'none';
-          this.textContent = '📍 Show Directions';
-          this.classList.remove('bg-indigo-500', 'hover:bg-indigo-600');
-          this.classList.add('bg-blue-500', 'hover:bg-blue-600');
+      btn.addEventListener(
+        'click',
+        function () {
+
+          const bookingId =
+            this.getAttribute(
+              'data-booking-id'
+            );
+
+          const panel =
+            document.getElementById(
+              `directions-panel-${bookingId}`
+            );
+
+          if (
+            panel.style.display === 'none' ||
+            panel.style.display === ''
+          ) {
+
+            panel.style.display = 'block';
+
+            this.textContent =
+              '🔽 Hide Directions';
+
+          }
+
+          else {
+
+            panel.style.display = 'none';
+
+            this.textContent =
+              '📍 Show Directions';
+
+          }
+
         }
-      });
+      );
+
     });
 
-    document.querySelectorAll('.show-route-btn').forEach(btn => {
-      btn.addEventListener('click', async function() {
-        const bookingId = this.getAttribute('data-booking-id');
-        const userLocationInput = document.getElementById(`userLocation-${bookingId}`);
-        const userAddress = userLocationInput.value.trim();
-        const propLat = parseFloat(this.getAttribute('data-lat'));
-        const propLng = parseFloat(this.getAttribute('data-lng'));
-        const name = this.getAttribute('data-name');
-        const location = this.getAttribute('data-location');
-        const mapId = `map-${bookingId}`;
-        const routeInfo = document.getElementById(`routeInfo-${bookingId}`);
-        const distanceDisplay = document.getElementById(`distance-${bookingId}`);
-        const timeDisplay = document.getElementById(`time-${bookingId}`);
+    // GET ROUTE
+    document.querySelectorAll(
+      '.show-route-btn'
+    ).forEach(btn => {
 
-        if (!userAddress) {
-          alert('Please enter your location to calculate directions.');
-          userLocationInput.focus();
-          return;
-        }
+      btn.addEventListener(
+        'click',
+        async function () {
 
-        try {
-          const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(userAddress)}&format=json&limit=1`, {
-            headers: { 'Accept': 'application/json' }
-          });
+          const bookingId =
+            this.getAttribute(
+              'data-booking-id'
+            );
 
-          const data = await response.json();
-          if (!data.length) {
-            alert('Location not found. Please try a different address.');
+          const userAddress =
+            document.getElementById(
+              `userLocation-${bookingId}`
+            ).value.trim();
+
+          const propertyLat =
+            parseFloat(
+              this.getAttribute(
+                'data-lat'
+              )
+            );
+
+          const propertyLng =
+            parseFloat(
+              this.getAttribute(
+                'data-lng'
+              )
+            );
+
+          const mapId =
+            `map-${bookingId}`;
+
+          const routeInfo =
+            document.getElementById(
+              `routeInfo-${bookingId}`
+            );
+
+          // VALIDATION
+          if (!userAddress) {
+
+            alert(
+              'Please enter your location.'
+            );
+
             return;
+
           }
 
-          const userLat = parseFloat(data[0].lat);
-          const userLng = parseFloat(data[0].lon);
+          try {
 
-          document.getElementById(mapId).style.display = 'block';
-          routeInfo.classList.remove('hidden');
+            // USER LOCATION SEARCH
+            const response =
+              await fetch(
+                `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(userAddress)}&format=json&limit=1`,
+                {
+                  headers: {
+                    'Accept':
+                      'application/json'
+                  }
+                }
+              );
 
-          if (!mapInstances[mapId]) {
-            initRouteMap(mapId, userLat, userLng, propLat, propLng, name, location, bookingId);
-          } else {
-            updateRoute(mapId, userLat, userLng, propLat, propLng, bookingId);
+            const data =
+              await response.json();
+
+            if (data.length === 0) {
+
+              alert(
+                'Location not found.'
+              );
+
+              return;
+
+            }
+
+            const userLat =
+              parseFloat(data[0].lat);
+
+            const userLng =
+              parseFloat(data[0].lon);
+
+            // SHOW MAP
+            document.getElementById(
+              mapId
+            ).style.display = 'block';
+
+            routeInfo.classList.remove(
+              'hidden'
+            );
+
+            // REMOVE OLD MAP
+            if (mapInstances[mapId]) {
+
+              mapInstances[mapId].remove();
+
+            }
+
+            // CREATE MAP
+            const map =
+              L.map(mapId).setView(
+                [
+                  (userLat + propertyLat) / 2,
+                  (userLng + propertyLng) / 2
+                ],
+                7
+              );
+
+            // TILE
+            L.tileLayer(
+              'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+              {
+                attribution:
+                  '© OpenStreetMap contributors',
+                maxZoom: 19
+              }
+            ).addTo(map);
+
+            // ROUTING
+            const routingControl =
+              L.Routing.control({
+
+                waypoints: [
+                  L.latLng(
+                    userLat,
+                    userLng
+                  ),
+                  L.latLng(
+                    propertyLat,
+                    propertyLng
+                  )
+                ],
+
+                routeWhileDragging: false,
+
+                lineOptions: {
+                  styles: [
+                    {
+                      color: 'blue',
+                      opacity: 0.7,
+                      weight: 5
+                    }
+                  ]
+                },
+
+                createMarker:
+                  function(
+                    i,
+                    waypoint,
+                    n
+                  ) {
+
+                    const marker =
+                      L.marker(
+                        waypoint.latLng
+                      );
+
+                    if (i === 0) {
+
+                      marker.bindPopup(
+                        'Your Location'
+                      );
+
+                    }
+
+                    else if (
+                      i === n - 1
+                    ) {
+
+                      marker.bindPopup(
+                        'Property Location'
+                      );
+
+                    }
+
+                    return marker;
+
+                  }
+
+              }).addTo(map);
+
+            // ROUTE FOUND
+            routingControl.on(
+              'routesfound',
+              function (e) {
+
+                const route =
+                  e.routes[0];
+
+                const distanceKm =
+                  (
+                    route.summary.totalDistance / 1000
+                  ).toFixed(2);
+
+                const timeMinutes =
+                  Math.round(
+                    route.summary.totalTime / 60
+                  );
+
+                document.getElementById(
+                  `distance-${bookingId}`
+                ).textContent =
+                  distanceKm + ' km';
+
+                document.getElementById(
+                  `time-${bookingId}`
+                ).textContent =
+                  timeMinutes + ' min';
+
+              }
+            );
+
+            mapInstances[mapId] =
+              map;
+
+            routingInstances[mapId] =
+              routingControl;
+
+            // FIX MAP SIZE
+            setTimeout(() => {
+              map.invalidateSize();
+            }, 300);
+
           }
 
-        } catch (error) {
-          console.error('Error fetching user location:', error);
-          alert('Could not calculate route right now. Please try again.');
+          catch (err) {
+
+            console.error(err);
+
+            alert(
+              'Error loading route.'
+            );
+
+          }
+
         }
-      });
+      );
+
     });
 
-    function initRouteMap(mapId, userLat, userLng, propLat, propLng, name, location, bookingId) {
-      const map = L.map(mapId).setView([(userLat + propLat) / 2, (userLng + propLng) / 2], 10);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 19
-      }).addTo(map);
-
-      const routingControl = L.Routing.control({
-        waypoints: [
-          L.latLng(userLat, userLng),
-          L.latLng(propLat, propLng)
-        ],
-        routeWhileDragging: false,
-        lineOptions: {
-          styles: [{ color: 'blue', opacity: 0.7, weight: 5 }]
-        },
-        createMarker: function(i, waypoint, n) {
-          const marker = L.marker(waypoint.latLng);
-          if (i === 0) marker.bindPopup('Your Location');
-          if (i === n - 1) marker.bindPopup(`<strong>${name}</strong><br>${location}`);
-          return marker;
-        }
-      }).addTo(map);
-
-      routingControl.on('routesfound', function(e) {
-        const route = e.routes[0];
-        const distanceKm = (route.summary.totalDistance / 1000).toFixed(2);
-        const timeMinutes = Math.round(route.summary.totalTime / 60);
-        document.getElementById(`distance-${bookingId}`).textContent = `${distanceKm} km`;
-        document.getElementById(`time-${bookingId}`).textContent = `${timeMinutes} min`;
-      });
-
-      mapInstances[mapId] = map;
-      routingInstances[mapId] = routingControl;
-
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 100);
-    }
-
-    function updateRoute(mapId, userLat, userLng, propLat, propLng, bookingId) {
-      if (routingInstances[mapId]) {
-        routingInstances[mapId].setWaypoints([
-          L.latLng(userLat, userLng),
-          L.latLng(propLat, propLng)
-        ]);
-      }
-    }
   </script>
 
 </body>
