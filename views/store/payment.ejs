@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <title>Payment</title>
+
+  <%- include("../partials/head") %>
+
+</head>
+
+<body class="bg-gray-100">
+
+
+
+
+  <%- include("../partials/nav") %>
+
+
+
+
+
+  <div
+    class="max-w-7xl mx-auto bg-white mt-10 rounded-3xl shadow-lg p-10"
+  >
+
+
+
+
+    <h1
+      class="text-center text-6xl font-bold text-red-500 mb-10"
+    >
+
+      Complete Payment
+
+    </h1>
+
+
+
+
+
+    <div class="grid grid-cols-2 gap-10">
+
+
+
+
+      <!-- LEFT -->
+      <div>
+
+        <img
+          src="<%= home.photoUrl %>"
+          class="w-full h-[420px] object-cover rounded-2xl"
+        />
+
+
+
+
+
+        <h1 class="text-5xl font-bold mt-8">
+
+          <%= home.houseName %>
+
+        </h1>
+
+
+
+
+
+        <p class="text-3xl text-gray-600 mt-3">
+
+          <%= home.city %>
+
+        </p>
+
+
+
+
+
+        <form
+          action="/confirm-booking"
+          method="POST"
+          id="bookingForm"
+        >
+
+          <input
+            type="hidden"
+            name="homeId"
+            value="<%= home._id %>"
+          />
+
+
+
+
+
+          <input
+            type="hidden"
+            name="houseName"
+            value="<%= home.houseName %>"
+          />
+
+
+
+
+
+          <input
+            type="hidden"
+            name="city"
+            value="<%= home.city %>"
+          />
+
+
+
+
+
+          <input
+            type="hidden"
+            name="photo"
+            value="<%= home.photoUrl %>"
+          />
+
+
+
+
+
+          <input
+            type="hidden"
+            name="price"
+            value="<%= home.price %>"
+            id="pricePerNight"
+          />
+
+
+
+
+
+          <div class="mt-10">
+
+            <label
+              class="text-2xl font-bold"
+            >
+
+              Check-In
+
+            </label>
+
+
+
+
+
+            <input
+              type="date"
+              name="checkIn"
+              id="checkIn"
+              required
+              class="w-full border-2 p-4 rounded-xl mt-3 text-2xl"
+            />
+
+          </div>
+
+
+
+
+
+          <div class="mt-5">
+
+            <label
+              class="text-2xl font-bold"
+            >
+
+              Check-Out
+
+            </label>
+
+
+
+
+
+            <input
+              type="date"
+              name="checkOut"
+              id="checkOut"
+              required
+              class="w-full border-2 p-4 rounded-xl mt-3 text-2xl"
+            />
+
+          </div>
+
+
+
+
+
+          <div class="mt-8 space-y-5">
+
+            <h2 class="text-3xl font-bold">
+
+              Check-In:
+              <span id="checkInText">
+
+                --
+
+              </span>
+
+            </h2>
+
+
+
+
+
+            <h2 class="text-3xl font-bold">
+
+              Check-Out:
+              <span id="checkOutText">
+
+                --
+
+              </span>
+
+            </h2>
+
+
+
+
+
+            <h2 class="text-3xl font-bold">
+
+              Total Nights:
+              <span id="totalNights">
+
+                0
+
+              </span>
+
+            </h2>
+
+
+
+
+
+            <h1
+              class="text-6xl font-bold text-red-500"
+            >
+
+              Rs<span id="totalAmount">
+
+                0
+
+              </span>
+
+            </h1>
+
+
+
+
+
+            <input
+              type="hidden"
+              name="totalNights"
+              id="totalNightsInput"
+            />
+
+
+
+
+
+            <input
+              type="hidden"
+              name="totalAmount"
+              id="totalAmountInput"
+            />
+
+          </div>
+
+      </div>
+
+
+
+
+
+      <!-- RIGHT -->
+      <div
+        class="bg-gray-100 rounded-3xl p-10"
+      >
+
+        <h1
+          class="text-5xl font-bold text-center"
+        >
+
+          Scan & Pay
+
+        </h1>
+
+
+
+
+
+        <div class="grid grid-cols-2 gap-5 mt-10">
+
+
+
+
+          <div
+            class="bg-white rounded-2xl p-5 shadow-md"
+          >
+
+            <img
+              src="/images/qr1.jpg"
+              class="w-full h-72 object-contain"
+            />
+
+            <h2
+              class="text-center text-3xl font-bold mt-5"
+            >
+
+              Sumit UPI
+
+            </h2>
+
+          </div>
+
+
+
+
+
+          <div
+            class="bg-white rounded-2xl p-5 shadow-md"
+          >
+
+            <img
+              src="/images/qr2.jpg"
+              class="w-full h-72 object-contain"
+            />
+
+            <h2
+              class="text-center text-3xl font-bold mt-5"
+            >
+
+              Sahbaj UPI
+
+            </h2>
+
+          </div>
+
+        </div>
+
+
+
+
+
+        <input
+          type="text"
+          name="transactionId"
+          required
+          placeholder="Enter Transaction ID"
+          class="w-full border-2 p-5 rounded-2xl mt-10 text-2xl"
+        />
+
+
+
+
+
+        <button
+          class="w-full bg-red-500 hover:bg-red-600 text-white py-5 rounded-2xl text-3xl font-bold mt-8"
+        >
+
+          Confirm Booking
+
+        </button>
+
+      </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+
+
+
+  <script>
+
+    const checkIn =
+      document.getElementById("checkIn");
+
+    const checkOut =
+      document.getElementById("checkOut");
+
+    const totalNights =
+      document.getElementById("totalNights");
+
+    const totalAmount =
+      document.getElementById("totalAmount");
+
+    const checkInText =
+      document.getElementById("checkInText");
+
+    const checkOutText =
+      document.getElementById("checkOutText");
+
+    const pricePerNight =
+      document.getElementById("pricePerNight").value;
+
+
+
+
+
+    function calculatePrice() {
+
+      const inDate =
+        new Date(checkIn.value);
+
+      const outDate =
+        new Date(checkOut.value);
+
+
+
+
+
+      checkInText.innerText =
+        checkIn.value;
+
+      checkOutText.innerText =
+        checkOut.value;
+
+
+
+
+
+      if (
+        checkIn.value &&
+        checkOut.value
+      ) {
+
+        const diffTime =
+          outDate - inDate;
+
+        const nights =
+          diffTime /
+          (1000 * 60 * 60 * 24);
+
+
+
+
+
+        totalNights.innerText =
+          nights;
+
+        document.getElementById(
+          "totalNightsInput"
+        ).value = nights;
+
+
+
+
+
+        const total =
+          nights * pricePerNight;
+
+
+
+
+
+        totalAmount.innerText =
+          total;
+
+        document.getElementById(
+          "totalAmountInput"
+        ).value = total;
+
+      }
+
+    }
+
+
+
+
+
+    checkIn.addEventListener(
+      "change",
+      calculatePrice
+    );
+
+
+
+
+
+    checkOut.addEventListener(
+      "change",
+      calculatePrice
+    );
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title><%= home.houseName %></title>
+
+  <link href="/output.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    #propertyMap {
+      height: 400px;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+
+  <%- include('../partials/nav') %>
+
+  <main class="max-w-5xl mx-auto bg-white shadow-lg rounded-xl mt-10 overflow-hidden">
+
+    <img
+      src="<%= home.photoUrl %>"
+      alt="<%= home.houseName %>"
+      class="w-full h-[450px] object-cover"
+    >
+
+    <div class="p-8">
+
+      <div class="flex justify-between items-center mb-4">
+
+        <h1 class="text-4xl font-bold text-gray-800">
+          <%= home.houseName %>
+        </h1>
+
+        <div class="text-yellow-500 text-2xl font-bold">
+          ⭐ <%= home.rating %>
+        </div>
+
+      </div>
+
+      <p class="text-xl text-gray-500 mb-6">
+        📍 <%= home.location %>
+      </p>
+
+      <p class="text-3xl text-red-500 font-bold mb-8">
+        ₹<%= home.price %> / night
+      </p>
+
+      <div class="bg-gray-100 p-6 rounded-lg mb-8">
+
+        <h2 class="text-2xl font-semibold mb-3">
+          About this home
+        </h2>
+
+        <p class="text-gray-700 leading-8 text-lg">
+          <%= home.description %>
+        </p>
+
+      </div>
+
+      <div class="bg-gray-100 p-6 rounded-lg mb-8">
+        <h2 class="text-2xl font-semibold mb-3">
+          Property Location
+        </h2>
+        <div id="propertyMap"></div>
+      </div>
+
+      <div class="flex gap-4">
+
+        <% if (isLoggedIn && role === "user") { %>
+
+          <form action="/reserve/<%= home._id %>" method="GET">
+
+            <button
+              type="submit"
+              class="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-lg text-lg font-semibold"
+            >
+              Book Now
+            </button>
+
+          </form>
+
+          <form action="/favourites" method="POST">
+
+            <input
+              type="hidden"
+              name="id"
+              value="<%= home._id %>"
+            >
+
+            <button
+              class="bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-lg text-lg font-semibold"
+            >
+              Add To Favourite
+            </button>
+
+          </form>
+
+        <% } else { %>
+
+          <div class="rounded-lg bg-yellow-100 border border-yellow-300 p-4 text-yellow-800">
+            Please log in to book this home or save it to favourites.
+          </div>
+
+        <% } %>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const lat = <%= home.latitude || 26.9124 %>;
+      const lng = <%= home.longitude || 75.7873 %>;
+
+      const map = L.map('propertyMap').setView([lat, lng], 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 19
+      }).addTo(map);
+
+      L.marker([lat, lng]).addTo(map).bindPopup('<strong><%= home.houseName %></strong><br><%= home.location %>');
+    });
+  </script>
+
+</body>
+</html>

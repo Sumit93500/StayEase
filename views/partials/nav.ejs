@@ -1,0 +1,114 @@
+<nav class="bg-red-500 p-5 flex justify-between items-center">
+
+  <a
+    href="/"
+    class="text-white text-5xl font-bold"
+  >
+    StayEase
+  </a>
+
+
+
+
+
+  <div class="flex gap-5 items-center">
+
+    <a
+      href="/"
+      class="text-white text-2xl font-bold"
+    >
+      Homes
+    </a>
+
+    <% if (!isLoggedIn) { %>
+
+      <a href="/login">
+
+        <button
+          class="bg-white text-red-500 px-5 py-2 rounded-xl text-2xl font-bold"
+        >
+          Login
+        </button>
+
+      </a>
+
+      <a href="/signup">
+
+        <button
+          class="bg-black text-white px-5 py-2 rounded-xl text-2xl font-bold"
+        >
+          Signup
+        </button>
+
+      </a>
+
+    <% } else if (role === "host") { %>
+
+      <a
+        href="/host"
+        class="text-white text-2xl font-bold hover:underline"
+      >
+        Dashboard
+      </a>
+
+      <a
+        href="/host/my-homes"
+        class="text-white text-2xl font-bold hover:underline"
+      >
+        My Homes
+      </a>
+
+      <a
+        href="/host/my-bookings"
+        class="text-white text-2xl font-bold hover:underline"
+      >
+        My Bookings
+      </a>
+
+      <form
+        action="/logout"
+        method="POST"
+      >
+
+        <button
+          class="bg-white text-red-500 px-5 py-2 rounded-xl text-2xl font-bold"
+        >
+          Logout
+        </button>
+
+      </form>
+
+    <% } else { %>
+
+      <a
+        href="/favourites"
+        class="text-white text-2xl font-bold hover:underline"
+      >
+        Favourites
+      </a>
+
+      <a
+        href="/bookings"
+        class="text-white text-2xl font-bold hover:underline"
+      >
+        Bookings
+      </a>
+
+      <form
+        action="/logout"
+        method="POST"
+      >
+
+        <button
+          class="bg-white text-red-500 px-5 py-2 rounded-xl text-2xl font-bold"
+        >
+          Logout
+        </button>
+
+      </form>
+
+    <% } %>
+
+  </div>
+
+</nav>

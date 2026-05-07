@@ -1,0 +1,114 @@
+<%- include('../partials/head') %>
+</head>
+
+<body class="bg-gray-100">
+
+  <%- include('../partials/nav') %>
+
+  <main class="max-w-6xl mx-auto p-8">
+
+    <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+
+      <h1 class="text-4xl font-bold text-red-500 mb-6">
+        My Bookings
+      </h1>
+
+      <% if (bookings.length === 0) { %>
+
+        <div class="text-center py-12">
+          <p class="text-gray-600 text-xl">
+            No bookings yet. When guests book your homes, they will appear here.
+          </p>
+          <a
+            href="/host/my-homes"
+            class="mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition"
+          >
+            Back to My Homes
+          </a>
+        </div>
+
+      <% } else { %>
+
+        <div class="space-y-6">
+
+          <% bookings.forEach(booking => { %>
+
+            <div class="border-l-4 border-blue-500 bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div>
+                  <h3 class="text-2xl font-bold text-gray-800 mb-2">
+                    <%= booking.home.houseName %>
+                  </h3>
+
+                  <p class="text-gray-600 mb-1">
+                    <strong>Guest:</strong> <%= booking.userId.email || 'Guest' %>
+                  </p>
+
+                  <p class="text-gray-600 mb-1">
+                    <strong>Check-in:</strong> <%= new Date(booking.checkIn).toLocaleDateString() %>
+                  </p>
+
+                  <p class="text-gray-600 mb-1">
+                    <strong>Check-out:</strong> <%= new Date(booking.checkOut).toLocaleDateString() %>
+                  </p>
+
+                  <p class="text-gray-600 mb-1">
+                    <strong>Duration:</strong> <%= booking.totalNights %> night(s)
+                  </p>
+
+                </div>
+
+                <div>
+
+                  <p class="text-gray-600 mb-1">
+                    <strong>Total Amount:</strong>
+                    <span class="text-2xl font-bold text-red-500">
+                      Rs <%= booking.totalAmount %>
+                    </span>
+                  </p>
+
+                  <p class="text-gray-600 mb-1">
+                    <strong>Price Per Night:</strong>
+                    <span class="text-lg font-semibold text-blue-500">
+                      Rs <%= booking.price %>
+                    </span>
+                  </p>
+
+                  <p class="text-gray-600 mb-1">
+                    <strong>Status:</strong>
+                    <% if (booking.isCanceled) { %>
+                      <span class="text-red-500 font-bold">CANCELLED</span>
+                    <% } else { %>
+                      <span class="text-green-500 font-bold">CONFIRMED</span>
+                    <% } %>
+                  </p>
+
+                  <% if (booking.isCanceled) { %>
+
+                    <p class="text-gray-600 mt-2">
+                      <strong>Cancellation Reason:</strong> <%= booking.cancellationReason %>
+                    </p>
+
+                  <% } %>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          <% }) %>
+
+        </div>
+
+      <% } %>
+
+    </div>
+
+  </main>
+
+</body>
+
+</html>

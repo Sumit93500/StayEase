@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title><%= pageTitle %></title>
+
+  <link rel="stylesheet" href="/output.css" />
+</head>
+
+<body class="bg-gray-100">
+
+  <%- include('../partials/nav') %>
+
+  <main class="max-w-7xl mx-auto p-6">
+
+    <h1 class="text-4xl font-bold text-center text-red-500 mb-10">
+      Welcome to StayEase index page:
+    </h1>
+
+    <% if (registeredHomes.length === 0) { %>
+
+      <div class="text-center mt-20">
+
+        <h2 class="text-3xl font-bold text-gray-700">
+          No Homes Available
+        </h2>
+
+      </div>
+
+    <% } else { %>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <% registeredHomes.forEach(home => { %>
+
+          <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
+
+            <img
+              src="<%= home.photoUrl %>"
+              alt="<%= home.houseName %>"
+              class="w-full h-80 object-cover"
+            />
+
+            <div class="p-5">
+
+              <h2 class="text-3xl font-bold text-black mb-2">
+                <%= home.houseName %>
+              </h2>
+
+              <p class="text-gray-600 text-xl mb-4">
+                <%= home.location %>
+              </p>
+
+              <div class="flex justify-between items-center mb-5">
+
+                <h3 class="text-red-500 text-4xl font-bold">
+                  Rs<%= home.price %> / night
+                </h3>
+
+                <p class="text-2xl font-semibold">
+                  ⭐ <%= home.rating %>
+                </p>
+
+              </div>
+
+              <div class="flex gap-4 flex-wrap">
+
+                <% if (isLoggedIn && role === "user") { %>
+
+                  <a
+                    href="/reserve/<%= home._id %>"
+                    class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl text-lg font-semibold transition"
+                  >
+                    Book Now
+                  </a>
+
+                <% } %>
+
+                <a
+                  href="/homes/<%= home._id %>"
+                  class="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-xl text-lg font-semibold transition"
+                >
+                  View Details
+                </a>
+
+                <% if (isLoggedIn && role === "user") { %>
+
+                  <form action="/favourites" method="POST">
+
+                    <input
+                      type="hidden"
+                      name="id"
+                      value="<%= home._id %>"
+                    />
+
+                    <button
+                      type="submit"
+                      class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-xl text-lg font-semibold transition"
+                    >
+                      Add Favourite
+                    </button>
+
+                  </form>
+
+                <% } %>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        <% }) %>
+
+      </div>
+
+    <% } %>
+
+  </main>
+
+</body>
+</html>

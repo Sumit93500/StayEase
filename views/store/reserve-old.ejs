@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Reserve Home</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"
+    />
+    <style>
+      #directionsMap {
+        height: 500px;
+        margin-top: 20px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100">
+    <%- include('../partials/nav') %>
+
+    <div class="max-w-5xl mx-auto mt-10 bg-white rounded-2xl shadow-lg p-8">
+      <h1 class="text-4xl font-bold text-center text-red-500 mb-10">
+        Reserve Your Stay
+      </h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <!-- IMAGE -->
+        <div>
+          <img
+            src="<%= home.photoUrl %>"
+            class="w-full h-96 object-cover rounded-2xl"
+          />
+        </div>
+
+        <!-- DETAILS -->
+        <div>
+          <h2 class="text-4xl font-bold mb-3"><%= home.houseName %></h2>
+
+          <p class="text-gray-600 text-2xl mb-5"><%= home.location %></p>
+
+          <p class="text-red-500 text-4xl font-bold mb-8">
+            Rs<%= home.price %> / night
+          </p>
+
+          <form id="reserveForm" class="space-y-5">
+            <div>
+              <label class="font-bold text-lg"> Check-In Date </label>
+
+              <input
+                type="date"
+                id="checkIn"
+                required
+                class="w-full border-2 border-gray-300 p-4 rounded-xl mt-2"
+              />
+            </div>
+
+            <div>
+              <label class="font-bold text-lg"> Check-Out Date </label>
+
+              <input
+                type="date"
+                id="checkOut"
+                required
+                class="w-full border-2 border-gray-300 p-4 rounded-xl mt-2"
+              />
+            </div>
+
+            <div>
+              <label class="font-bold text-lg">
+                Your Location (for directions)
+              </label>
+
+              <input
+                type="text"
+                id="userLocation"
+                placeholder="e.g., 456 Oak St, Jaipur, Rajasthan"
+                class="w-full border-2 border-gray-300 p-4 rounded-xl mt-2"
+              />
+
+              <button
+                type="button"
+                id="showMapBtn"
+                class="mt-2 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-xl"
+              >
+                Show Route to Property
+              </button>
+            </div>
+
+            <div id="mapContainer" style="display: none">
+              <h3 class="font-bold text-lg mt-4">Directions to Property</h3>
+              <div id="directionsMap"></div>
+              <p class="text-sm text-gray-600 mt-2">
+                The map shows the route from your location to the property.
+              </p>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full bg-red-500 hover:bg-red-600 text-white text-xl font-bold py-4 rounded-xl"
+            >
+              Continue To Payment
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+
+      const form = document.getElementById("reserveForm");
+
+      form.addEventListener("submit", function(e) {
+
+        e.preventDefault();
+
+        const checkIn = document.getElementById("checkIn").value;
+
+        const checkOut = document.getElementById("checkOut").value;
+
+
+
+
+
+        const inDate = new Date(checkIn);
+
+        const outDate = new Date(checkOut);
+
+
+
+
+
+        const diffTime = outDate - inDate;
+
+        const totalNights = Math.ceil(
+          diffTime / (1000 * 60 * 60 * 24)
+        );
+
+
+
+
+
+        if (totalNights <= 0) {
+
+          alert("Check-Out must be after Check-In");
+
+          return;
+
+        }
+
+
+
+
+
+        const pricePerNight = <%= home.price %>;
+
+        const totalAmount = totalNights * pricePerNight;
+
+
+
+
+
+        window.location.href =
+          `/payment/<%= home._id %>?checkIn=${checkIn}&checkOut=${checkOut}&totalNights=${totalNights}&totalAmount=${totalAmount}`;
+
+      });
+    </script>
+  </body>
+</html>

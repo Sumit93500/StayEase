@@ -1,0 +1,249 @@
+<%- include('../partials/head') %>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    #locationMap {
+      height: 400px;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+    .map-container {
+      margin-bottom: 20px;
+    }
+    .map-info {
+      background-color: #f0f4f8;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #333;
+    }
+  </style>
+  </head>
+  <body class="bg-gray-100">
+    <%- include('../partials/nav') %>
+    <main class="container mx-auto mt-8 p-8 bg-white rounded-lg shadow-md max-w-2xl">
+      <h1 class="text-4xl font-bold mb-8 text-center text-gray-800">
+        <% if (editing) { %>
+          Edit Your Home
+        <% } else { %>
+          List Your Home on StayEase
+        <% } %>
+      </h1>
+      <form id="homeForm" action="/host/<%= editing ? "edit-home" : "add-home"%>" method="POST" class="space-y-6">
+        <input type="hidden" name="id" value="<%= editing ? home._id : ''%>" />
+        
+        <div>
+          <label class="block text-gray-700 font-semibold mb-2">House Name</label>
+          <input
+            type="text"
+            name="houseName"
+            value="<%= editing ? home.houseName : ''%>"
+            placeholder="e.g., Cozy Beach House"
+            required
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"/>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-gray-700 font-semibold mb-2">Price Per Night (Rs)</label>
+            <input
+              type="number"
+              name="price"
+              value="<%= editing ? home.price : ''%>"
+              placeholder="e.g., 5000"
+              required
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"/>
+          </div>
+
+          <div>
+            <label class="block text-gray-700 font-semibold mb-2">Rating</label>
+            <input
+              type="number"
+              name="rating"
+              value="<%= editing ? home.rating : ''%>"
+              placeholder="e.g., 4.8"
+              step="0.1"
+              min="0"
+              max="5"
+              required
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"/>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-semibold mb-2">Location Address *</label>
+          <input
+            type="text"
+            id="addressInput"
+            name="location"
+            value="<%= editing ? home.location : ''%>"
+            placeholder="e.g., 123 Main St, Dehradun, Uttarakhand"
+            required
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"/>
+          <button 
+            type="button" 
+            id="searchBtn" 
+            class="mt-2 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition font-bold"
+          >
+            🔍 Search & Set Location on Map
+          </button>
+          <div class="map-info">
+            <strong>📍 Coordinates:</strong> 
+            <span id="coordsDisplay" class="text-red-600 font-semibold">⚠️ Not set - Please search location first</span>
+          </div>
+          <p class="text-sm text-red-600 mt-2 font-semibold">⚠️ Required: You MUST search location on map to set exact coordinates before saving</p>
+          <div id="locationMap"></div>
+          <input type="hidden" id="latitude" name="latitude" value="<%= editing ? home.latitude : '' %>" required />
+          <input type="hidden" id="longitude" name="longitude" value="<%= editing ? home.longitude : '' %>" required />
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-semibold mb-2">Photo URL</label>
+          <input
+            type="url"
+            name="photoUrl"
+            value="<%= editing ? home.photoUrl : ''%>"
+            placeholder="https://example.com/photo.jpg"
+            required
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"/>
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-semibold mb-2">Description</label>
+          <textarea
+            name="description"
+            placeholder="Describe your home in detail..."
+            required
+            rows="5"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"><%= editing ? home.description : ''%></textarea>
+        </div>
+
+        <div class="flex gap-4">
+          <input 
+            type="submit" 
+            value="<%= editing ? "Update Home" : "List Home"%>" 
+            class="flex-1 bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 transition font-semibold text-lg cursor-pointer" 
+          />
+          <a
+            href="/host/my-homes"
+            class="flex-1 bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition font-semibold text-lg text-center"
+          >
+            Cancel
+          </a>
+        </div>
+      </form>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+      let map;
+      let marker;
+      let propertyLat = <%= editing && home.latitude ? home.latitude : 26.9124 %>;
+      let propertyLng = <%= editing && home.longitude ? home.longitude : 75.7873 %>;
+      let coordinatesSet = <%= editing && home.latitude && home.longitude ? 'true' : 'false' %>;
+
+      function initMap() {
+        map = L.map('locationMap').setView([propertyLat, propertyLng], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors',
+          maxZoom: 19
+        }).addTo(map);
+
+        marker = L.marker([propertyLat, propertyLng]).addTo(map);
+
+        map.on('click', (e) => {
+          propertyLat = e.latlng.lat;
+          propertyLng = e.latlng.lng;
+          updateMarker(propertyLat, propertyLng);
+        });
+
+        if (coordinatesSet) {
+          document.getElementById('coordsDisplay').innerHTML = `✅ ${propertyLat.toFixed(6)}, ${propertyLng.toFixed(6)}`;
+          document.getElementById('coordsDisplay').className = 'text-green-600 font-semibold';
+        }
+      }
+
+      function updateMarker(lat, lng) {
+        if (marker) {
+          marker.setLatLng([lat, lng]);
+        } else {
+          marker = L.marker([lat, lng]).addTo(map);
+        }
+        map.setView([lat, lng], 13);
+        document.getElementById('latitude').value = lat.toFixed(6);
+        document.getElementById('longitude').value = lng.toFixed(6);
+        document.getElementById('coordsDisplay').innerHTML = `✅ ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+        document.getElementById('coordsDisplay').className = 'text-green-600 font-semibold';
+        coordinatesSet = true;
+      }
+
+      document.getElementById('searchBtn').addEventListener('click', async () => {
+        const address = document.getElementById('addressInput').value;
+        if (!address) {
+          alert('Please enter an address');
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`,
+            { headers: { 'Accept': 'application/json' } }
+          );
+          const data = await response.json();
+
+          if (data.length === 0) {
+            alert('Location not found. Please try a different address.');
+            document.getElementById('coordsDisplay').innerHTML = `❌ Location not found`;
+            document.getElementById('coordsDisplay').className = 'text-red-600 font-semibold';
+            return;
+          }
+
+          const result = data[0];
+          const lat = parseFloat(result.lat);
+          const lng = parseFloat(result.lon);
+          updateMarker(lat, lng);
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Error searching for location. Please try again.');
+        }
+      });
+
+      // Add form validation
+      document.getElementById('homeForm').addEventListener('submit', (e) => {
+        if (!coordinatesSet || !document.getElementById('latitude').value || !document.getElementById('longitude').value) {
+          e.preventDefault();
+          alert('⚠️ Please search and set the location on the map before saving!');
+          document.getElementById('searchBtn').focus();
+          return false;
+        }
+      });
+
+      // Auto-search when user leaves the address field
+      document.getElementById('addressInput').addEventListener('blur', async () => {
+        const address = document.getElementById('addressInput').value;
+        if (address && !coordinatesSet) {
+          console.log('Auto-searching for address...');
+          try {
+            const response = await fetch(
+              `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`,
+              { headers: { 'Accept': 'application/json' } }
+            );
+            const data = await response.json();
+
+            if (data.length > 0) {
+              const result = data[0];
+              const lat = parseFloat(result.lat);
+              const lng = parseFloat(result.lon);
+              updateMarker(lat, lng);
+            }
+          } catch (error) {
+            console.log('Auto-search failed, user can manually search');
+          }
+        }
+      });
+
+      // Initialize map when page loads
+      document.addEventListener('DOMContentLoaded', initMap);
+    </script>
+  </body>
+</html>
